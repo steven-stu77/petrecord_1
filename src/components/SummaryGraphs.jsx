@@ -31,29 +31,69 @@ export const SummaryGraphs = () => {
 
   const getTrendColor = (trend) => {
     switch(trend) {
-      case 'up': return 'text-green-600';
-      case 'down': return 'text-red-600';
-      case 'stable': return 'text-blue-600';
-      default: return 'text-gray-600';
+      case 'up': return 'rgb(22, 101, 52)';
+      case 'down': return 'rgb(220, 38, 38)';
+      case 'stable': return 'rgb(37, 99, 235)';
+      default: return 'rgb(75, 85, 99)';
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Summary Graphs & Analytics</h1>
-        <p className="text-gray-600">Visual insights into your pets' health and behavior patterns</p>
+    <div style={{
+      maxWidth: '1200px',
+      margin: '0 auto',
+      padding: '2rem 1rem'
+    }}>
+      <div style={{ marginBottom: '2rem' }}>
+        <h1 style={{
+          fontSize: '1.875rem',
+          fontWeight: 'bold',
+          color: 'rgb(17, 24, 39)',
+          marginBottom: '0.5rem'
+        }}>Summary Graphs & Analytics</h1>
+        <p style={{ color: 'rgb(75, 85, 99)' }}>Visual insights into your pets' health and behavior patterns</p>
       </div>
 
       {/* Controls */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <div className="flex flex-wrap gap-4 items-center">
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '0.5rem',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        padding: '1.5rem',
+        marginBottom: '2rem'
+      }}>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '1rem',
+          alignItems: 'center'
+        }}>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Time Range</label>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.5rem'
+            }}>Time Range</label>
             <select
               value={selectedTimeRange}
               onChange={(e) => setSelectedTimeRange(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.375rem',
+                padding: '0.5rem 0.75rem',
+                outline: 'none',
+                fontSize: '1rem'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(59, 130, 246)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(209, 213, 219)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
               <option value="7days">Last 7 Days</option>
               <option value="30days">Last 30 Days</option>
@@ -63,11 +103,31 @@ export const SummaryGraphs = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Metric Type</label>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.5rem'
+            }}>Metric Type</label>
             <select
               value={selectedMetric}
               onChange={(e) => setSelectedMetric(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.375rem',
+                padding: '0.5rem 0.75rem',
+                outline: 'none',
+                fontSize: '1rem'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(59, 130, 246)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(209, 213, 219)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
               <option value="behavior">Behavior Patterns</option>
               <option value="health">Health Metrics</option>
@@ -80,36 +140,120 @@ export const SummaryGraphs = () => {
 
       {/* Behavior Chart Simulation */}
       {selectedMetric === 'behavior' && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6">Behavior Patterns Over Time</h2>
-          <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-            <div className="text-center text-gray-500">
-              <div className="text-4xl mb-2">📊</div>
-              <p className="text-lg font-medium">Interactive Chart Would Appear Here</p>
-              <p className="text-sm">Showing behavior trends: Playful, Aggressive, Anxious</p>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem',
+          marginBottom: '2rem'
+        }}>
+          <h2 style={{
+            fontSize: '1.25rem',
+            fontWeight: '600',
+            color: 'rgb(31, 41, 55)',
+            marginBottom: '1.5rem'
+          }}>Behavior Patterns Over Time</h2>
+          <div style={{
+            height: '16rem',
+            backgroundColor: 'rgb(249, 250, 251)',
+            borderRadius: '0.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: '2px dashed rgb(209, 213, 219)'
+          }}>
+            <div style={{ textAlign: 'center', color: 'rgb(107, 114, 128)' }}>
+              <div style={{ fontSize: '2.25rem', marginBottom: '0.5rem' }}>📊</div>
+              <p style={{ fontSize: '1.125rem', fontWeight: '500' }}>Interactive Chart Would Appear Here</p>
+              <p style={{ fontSize: '0.875rem' }}>Showing behavior trends: Playful, Aggressive, Anxious</p>
             </div>
           </div>
           
           {/* Data Table */}
-          <div className="mt-6">
-            <h3 className="text-lg font-medium text-gray-800 mb-4">Recent Data Points</h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+          <div style={{ marginTop: '1.5rem' }}>
+            <h3 style={{
+              fontSize: '1.125rem',
+              fontWeight: '500',
+              color: 'rgb(31, 41, 55)',
+              marginBottom: '1rem'
+            }}>Recent Data Points</h3>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{
+                minWidth: '100%',
+                borderCollapse: 'collapse'
+              }}>
+                <thead style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Playful</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aggressive</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Anxious</th>
+                    <th style={{
+                      padding: '0.75rem 1rem',
+                      textAlign: 'left',
+                      fontSize: '0.75rem',
+                      fontWeight: '500',
+                      color: 'rgb(107, 114, 128)',
+                      textTransform: 'uppercase'
+                    }}>Date</th>
+                    <th style={{
+                      padding: '0.75rem 1rem',
+                      textAlign: 'left',
+                      fontSize: '0.75rem',
+                      fontWeight: '500',
+                      color: 'rgb(107, 114, 128)',
+                      textTransform: 'uppercase'
+                    }}>Playful</th>
+                    <th style={{
+                      padding: '0.75rem 1rem',
+                      textAlign: 'left',
+                      fontSize: '0.75rem',
+                      fontWeight: '500',
+                      color: 'rgb(107, 114, 128)',
+                      textTransform: 'uppercase'
+                    }}>Aggressive</th>
+                    <th style={{
+                      padding: '0.75rem 1rem',
+                      textAlign: 'left',
+                      fontSize: '0.75rem',
+                      fontWeight: '500',
+                      color: 'rgb(107, 114, 128)',
+                      textTransform: 'uppercase'
+                    }}>Anxious</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody>
                   {behaviorData.map((data, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm text-gray-900">{data.date}</td>
-                      <td className="px-4 py-3 text-sm text-green-600 font-medium">{data.playful}</td>
-                      <td className="px-4 py-3 text-sm text-red-600 font-medium">{data.aggressive}</td>
-                      <td className="px-4 py-3 text-sm text-yellow-600 font-medium">{data.anxious}</td>
+                    <tr key={index} style={{
+                      borderBottom: '1px solid rgb(229, 231, 235)',
+                      transition: 'background-color 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgb(249, 250, 251)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'white';
+                    }}
+                    >
+                      <td style={{
+                        padding: '0.75rem 1rem',
+                        fontSize: '0.875rem',
+                        color: 'rgb(17, 24, 39)'
+                      }}>{data.date}</td>
+                      <td style={{
+                        padding: '0.75rem 1rem',
+                        fontSize: '0.875rem',
+                        color: 'rgb(22, 101, 52)',
+                        fontWeight: '500'
+                      }}>{data.playful}</td>
+                      <td style={{
+                        padding: '0.75rem 1rem',
+                        fontSize: '0.875rem',
+                        color: 'rgb(220, 38, 38)',
+                        fontWeight: '500'
+                      }}>{data.aggressive}</td>
+                      <td style={{
+                        padding: '0.75rem 1rem',
+                        fontSize: '0.875rem',
+                        color: 'rgb(202, 138, 4)',
+                        fontWeight: '500'
+                      }}>{data.anxious}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -121,19 +265,54 @@ export const SummaryGraphs = () => {
 
       {/* Health Metrics */}
       {selectedMetric === 'health' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: '1.5rem',
+          marginBottom: '2rem'
+        }}>
           {healthMetrics.map((metric, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-gray-800">{metric.metric}</h3>
-                <span className={`text-2xl ${getTrendColor(metric.trend)}`}>
+            <div key={index} style={{
+              backgroundColor: 'white',
+              borderRadius: '0.5rem',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+              padding: '1.5rem'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '1rem'
+              }}>
+                <h3 style={{
+                  fontSize: '1.125rem',
+                  fontWeight: '500',
+                  color: 'rgb(31, 41, 55)'
+                }}>{metric.metric}</h3>
+                <span style={{
+                  fontSize: '1.5rem',
+                  color: getTrendColor(metric.trend)
+                }}>
                   {getTrendIcon(metric.trend)}
                 </span>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
-                {metric.value} <span className="text-sm font-normal text-gray-500">{metric.unit}</span>
+              <div style={{
+                fontSize: '1.875rem',
+                fontWeight: 'bold',
+                color: 'rgb(17, 24, 39)',
+                marginBottom: '0.5rem'
+              }}>
+                {metric.value} <span style={{
+                  fontSize: '0.875rem',
+                  fontWeight: 'normal',
+                  color: 'rgb(107, 114, 128)'
+                }}>{metric.unit}</span>
               </div>
-              <div className={`text-sm ${getTrendColor(metric.trend)} capitalize`}>
+              <div style={{
+                fontSize: '0.875rem',
+                color: getTrendColor(metric.trend),
+                textTransform: 'capitalize'
+              }}>
                 {metric.trend} trend
               </div>
             </div>
@@ -142,44 +321,119 @@ export const SummaryGraphs = () => {
       )}
 
       {/* Summary Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Most Active Pet</h3>
-          <div className="flex items-center">
-            <div className="text-4xl mr-4">🐕</div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '1.5rem',
+        marginBottom: '2rem'
+      }}>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem'
+        }}>
+          <h3 style={{
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: 'rgb(55, 65, 81)',
+            marginBottom: '1rem'
+          }}>Most Active Pet</h3>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ fontSize: '2.25rem', marginRight: '1rem' }}>🐕</div>
             <div>
-              <p className="text-xl font-bold text-gray-900">Buddy</p>
-              <p className="text-sm text-gray-500">Golden Retriever</p>
+              <p style={{
+                fontSize: '1.25rem',
+                fontWeight: 'bold',
+                color: 'rgb(17, 24, 39)'
+              }}>Buddy</p>
+              <p style={{
+                fontSize: '0.875rem',
+                color: 'rgb(107, 114, 128)'
+              }}>Golden Retriever</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Behavior Alerts</h3>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-yellow-600">2</p>
-            <p className="text-sm text-gray-500">Require attention</p>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem'
+        }}>
+          <h3 style={{
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: 'rgb(55, 65, 81)',
+            marginBottom: '1rem'
+          }}>Behavior Alerts</h3>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{
+              fontSize: '1.875rem',
+              fontWeight: 'bold',
+              color: 'rgb(202, 138, 4)'
+            }}>2</p>
+            <p style={{
+              fontSize: '0.875rem',
+              color: 'rgb(107, 114, 128)'
+            }}>Require attention</p>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Health Score</h3>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-green-600">92%</p>
-            <p className="text-sm text-gray-500">Excellent</p>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem'
+        }}>
+          <h3 style={{
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: 'rgb(55, 65, 81)',
+            marginBottom: '1rem'
+          }}>Health Score</h3>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{
+              fontSize: '1.875rem',
+              fontWeight: 'bold',
+              color: 'rgb(22, 101, 52)'
+            }}>92%</p>
+            <p style={{
+              fontSize: '0.875rem',
+              color: 'rgb(107, 114, 128)'
+            }}>Excellent</p>
           </div>
         </div>
       </div>
 
       {/* Chart Placeholder for other metrics */}
       {selectedMetric !== 'behavior' && selectedMetric !== 'health' && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6 capitalize">{selectedMetric} Analytics</h2>
-          <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-            <div className="text-center text-gray-500">
-              <div className="text-4xl mb-2">📈</div>
-              <p className="text-lg font-medium">{selectedMetric.charAt(0).toUpperCase() + selectedMetric.slice(1)} Chart</p>
-              <p className="text-sm">Interactive visualization for {selectedMetric} data</p>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem'
+        }}>
+          <h2 style={{
+            fontSize: '1.25rem',
+            fontWeight: '600',
+            color: 'rgb(31, 41, 55)',
+            marginBottom: '1.5rem',
+            textTransform: 'capitalize'
+          }}>{selectedMetric} Analytics</h2>
+          <div style={{
+            height: '16rem',
+            backgroundColor: 'rgb(249, 250, 251)',
+            borderRadius: '0.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: '2px dashed rgb(209, 213, 219)'
+          }}>
+            <div style={{ textAlign: 'center', color: 'rgb(107, 114, 128)' }}>
+              <div style={{ fontSize: '2.25rem', marginBottom: '0.5rem' }}>📈</div>
+              <p style={{ fontSize: '1.125rem', fontWeight: '500' }}>{selectedMetric.charAt(0).toUpperCase() + selectedMetric.slice(1)} Chart</p>
+              <p style={{ fontSize: '0.875rem' }}>Interactive visualization for {selectedMetric} data</p>
             </div>
           </div>
         </div>

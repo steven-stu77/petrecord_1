@@ -217,7 +217,7 @@ export function PetRecords({ onNavigate }) {
                       (e.currentTarget.style.background = "#FEF9F5")
                     }
                   >
-                    Edit
+                    ✏️ Edit
                   </button>
 
                   {/* Delete Button */}
@@ -253,7 +253,7 @@ export function PetRecords({ onNavigate }) {
                       (e.currentTarget.style.background = "#FCA5A5")
                     }
                   >
-                    Delete
+                    🗑
                   </button>
                 </div>
               </div>

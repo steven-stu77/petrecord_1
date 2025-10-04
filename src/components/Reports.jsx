@@ -29,23 +29,69 @@ export const Reports = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Reports</h1>
-        <p className="text-gray-600">Generate and view comprehensive pet reports</p>
+    <div style={{
+      maxWidth: '1200px',
+      margin: '0 auto',
+      padding: '2rem 1rem'
+    }}>
+      <div style={{ marginBottom: '2rem' }}>
+        <h1 style={{
+          fontSize: '1.875rem',
+          fontWeight: 'bold',
+          color: 'rgb(17, 24, 39)',
+          marginBottom: '0.5rem'
+        }}>Reports</h1>
+        <p style={{ color: 'rgb(75, 85, 99)' }}>Generate and view comprehensive pet reports</p>
       </div>
 
       {/* Report Generator */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">Generate New Report</h2>
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '0.5rem',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        padding: '1.5rem',
+        marginBottom: '2rem'
+      }}>
+        <h2 style={{
+          fontSize: '1.25rem',
+          fontWeight: '600',
+          color: 'rgb(31, 41, 55)',
+          marginBottom: '1.5rem'
+        }}>Generate New Report</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1rem',
+          marginBottom: '1.5rem'
+        }}>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Report Type</label>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.5rem'
+            }}>Report Type</label>
             <select
               value={reportType}
               onChange={(e) => setReportType(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                width: '100%',
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.375rem',
+                padding: '0.5rem 0.75rem',
+                outline: 'none',
+                fontSize: '1rem'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(59, 130, 246)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(209, 213, 219)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
               <option value="">Select Report Type</option>
               {reportTypes.map((type) => (
@@ -55,11 +101,32 @@ export const Reports = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Pet</label>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.5rem'
+            }}>Pet</label>
             <select
               value={selectedPet}
               onChange={(e) => setSelectedPet(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                width: '100%',
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.375rem',
+                padding: '0.5rem 0.75rem',
+                outline: 'none',
+                fontSize: '1rem'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(59, 130, 246)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(209, 213, 219)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
               <option value="">All Pets</option>
               {pets.slice(1).map((pet) => (
@@ -69,60 +136,247 @@ export const Reports = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.5rem'
+            }}>Start Date</label>
             <input
               type="date"
               value={dateRange.start}
               onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                width: '100%',
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.375rem',
+                padding: '0.5rem 0.75rem',
+                outline: 'none',
+                fontSize: '1rem'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(59, 130, 246)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(209, 213, 219)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+            <label style={{
+              display: 'block',
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.5rem'
+            }}>End Date</label>
             <input
               type="date"
               value={dateRange.end}
               onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                width: '100%',
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.375rem',
+                padding: '0.5rem 0.75rem',
+                outline: 'none',
+                fontSize: '1rem'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(59, 130, 246)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'rgb(209, 213, 219)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             />
           </div>
         </div>
 
         <button
           onClick={handleGenerateReport}
-          className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          style={{
+            backgroundColor: 'rgb(59, 130, 246)',
+            color: 'white',
+            padding: '0.5rem 1.5rem',
+            borderRadius: '0.375rem',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            transition: 'background-color 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgb(37, 99, 235)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgb(59, 130, 246)';
+          }}
         >
           Generate Report
         </button>
       </div>
 
       {/* Recent Reports */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">Recent Reports</h2>
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '0.5rem',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        padding: '1.5rem'
+      }}>
+        <h2 style={{
+          fontSize: '1.25rem',
+          fontWeight: '600',
+          color: 'rgb(31, 41, 55)',
+          marginBottom: '1.5rem'
+        }}>Recent Reports</h2>
         
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{
+            minWidth: '100%',
+            borderCollapse: 'collapse'
+          }}>
+            <thead style={{ backgroundColor: 'rgb(249, 250, 251)' }}>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Report Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pet</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Generated</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th style={{
+                  padding: '0.75rem 1.5rem',
+                  textAlign: 'left',
+                  fontSize: '0.75rem',
+                  fontWeight: '500',
+                  color: 'rgb(107, 114, 128)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>Report Name</th>
+                <th style={{
+                  padding: '0.75rem 1.5rem',
+                  textAlign: 'left',
+                  fontSize: '0.75rem',
+                  fontWeight: '500',
+                  color: 'rgb(107, 114, 128)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>Type</th>
+                <th style={{
+                  padding: '0.75rem 1.5rem',
+                  textAlign: 'left',
+                  fontSize: '0.75rem',
+                  fontWeight: '500',
+                  color: 'rgb(107, 114, 128)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>Pet</th>
+                <th style={{
+                  padding: '0.75rem 1.5rem',
+                  textAlign: 'left',
+                  fontSize: '0.75rem',
+                  fontWeight: '500',
+                  color: 'rgb(107, 114, 128)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>Generated</th>
+                <th style={{
+                  padding: '0.75rem 1.5rem',
+                  textAlign: 'left',
+                  fontSize: '0.75rem',
+                  fontWeight: '500',
+                  color: 'rgb(107, 114, 128)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody style={{ backgroundColor: 'white' }}>
               {sampleReports.map((report) => (
-                <tr key={report.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{report.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.type}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.pet}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.date}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-blue-600 hover:text-blue-900 mr-3">📄 View</button>
-                    <button className="text-green-600 hover:text-green-900 mr-3">📥 Download</button>
-                    <button className="text-red-600 hover:text-red-900">🗑️ Delete</button>
+                <tr key={report.id} style={{
+                  borderBottom: '1px solid rgb(229, 231, 235)',
+                  transition: 'background-color 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgb(249, 250, 251)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'white';
+                }}
+                >
+                  <td style={{
+                    padding: '1rem 1.5rem',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    color: 'rgb(17, 24, 39)'
+                  }}>{report.name}</td>
+                  <td style={{
+                    padding: '1rem 1.5rem',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.875rem',
+                    color: 'rgb(107, 114, 128)'
+                  }}>{report.type}</td>
+                  <td style={{
+                    padding: '1rem 1.5rem',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.875rem',
+                    color: 'rgb(107, 114, 128)'
+                  }}>{report.pet}</td>
+                  <td style={{
+                    padding: '1rem 1.5rem',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.875rem',
+                    color: 'rgb(107, 114, 128)'
+                  }}>{report.date}</td>
+                  <td style={{
+                    padding: '1rem 1.5rem',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.875rem',
+                    fontWeight: '500'
+                  }}>
+                    <button style={{
+                      color: 'rgb(37, 99, 235)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      marginRight: '0.75rem',
+                      fontSize: '0.875rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'rgb(30, 64, 175)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgb(37, 99, 235)';
+                    }}
+                    >📄 View</button>
+                    <button style={{
+                      color: 'rgb(22, 101, 52)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      marginRight: '0.75rem',
+                      fontSize: '0.875rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'rgb(21, 128, 61)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgb(22, 101, 52)';
+                    }}
+                    >📥 Download</button>
+                    <button style={{
+                      color: 'rgb(220, 38, 38)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'rgb(185, 28, 28)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'rgb(220, 38, 38)';
+                    }}
+                    >🗑️ Delete</button>
                   </td>
                 </tr>
               ))}
@@ -132,18 +386,68 @@ export const Reports = () => {
       </div>
 
       {/* Report Statistics */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">Total Reports</h3>
-          <p className="text-3xl font-bold text-blue-600">23</p>
+      <div style={{
+        marginTop: '2rem',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '1.5rem'
+      }}>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem',
+          textAlign: 'center'
+        }}>
+          <h3 style={{
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: 'rgb(55, 65, 81)',
+            marginBottom: '0.5rem'
+          }}>Total Reports</h3>
+          <p style={{
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            color: 'rgb(37, 99, 235)'
+          }}>23</p>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">This Month</h3>
-          <p className="text-3xl font-bold text-green-600">8</p>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem',
+          textAlign: 'center'
+        }}>
+          <h3 style={{
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: 'rgb(55, 65, 81)',
+            marginBottom: '0.5rem'
+          }}>This Month</h3>
+          <p style={{
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            color: 'rgb(22, 101, 52)'
+          }}>8</p>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">Avg. per Week</h3>
-          <p className="text-3xl font-bold text-purple-600">2</p>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          padding: '1.5rem',
+          textAlign: 'center'
+        }}>
+          <h3 style={{
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: 'rgb(55, 65, 81)',
+            marginBottom: '0.5rem'
+          }}>Avg. per Week</h3>
+          <p style={{
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            color: 'rgb(147, 51, 234)'
+          }}>2</p>
         </div>
       </div>
     </div>

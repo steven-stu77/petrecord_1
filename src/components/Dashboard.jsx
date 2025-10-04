@@ -3,26 +3,174 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import dogImg from "../image/dog.png";
 import TextType from "./TextType";
 import { ScrollVelocity } from "./ScrollVelocity";
-import ScrollStack, { ScrollStackItem } from './ScrollStack'   
+import ScrollStack, { ScrollStackItem } from "./ScrollStack";
 
-// Simple Button component - Keeping Tailwind for complex styling (hover, size, responsive)
-const Button = ({ children, onClick, className, size }) => (
-  <button
-    onClick={onClick}
-    className={`px-4 py-2 rounded-md font-medium transition-colors ${className}`}
-  >
-    {children}
-  </button>
-);
+const Button = ({ children, onClick, style: customStyle, size, ...props }) => {
+  const baseStyle = {
+    padding: "0.5rem 1rem",
+    borderRadius: "0.375rem",
+    fontWeight: "500",
+    transition: "background-color 0.2s ease, color 0.2s ease",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "1rem",
+  };
+
+  const sizeStyle =
+    size === "lg"
+      ? {
+          padding: "1.75rem 2.5rem",
+          fontSize: "1.125rem",
+        }
+      : {};
+
+  return (
+    <button
+      onClick={onClick}
+      style={{ ...baseStyle, ...sizeStyle, ...customStyle }}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
 
 // Simple icon components
-const ArrowRight = ({ className }) => <span className={className}>→</span>;
-const Heart = ({ className }) => <span className={className}>❤️</span>;
-const Activity = ({ className }) => <span className={className}>📊</span>;
-const Sparkles = ({ className }) => <span className={className}>✨</span>;
-const PawPrint = ({ className }) => <span className={className}>🐾</span>;
-const BarChart = ({ className }) => <span className={className}>📈</span>;
-const FileCheck = ({ className }) => <span className={className}>📋</span>;
+const ArrowRight = ({ style }) => <span style={style}>→</span>;
+const Heart = ({ style }) => <span style={style}>❤️</span>;
+const Sparkles = ({ style }) => <span style={style}>✨</span>;
+const PawPrint = ({ style }) => <span style={style}>🐾</span>;
+
+// Helper for color classes
+const getColorClasses = (color) => {
+  switch (color) {
+    case "pink":
+      return {
+        bg: "rgb(253 242 248)", // pink-100
+        text: "rgb(219 39 119)", // pink-600
+      };
+    case "yellow":
+      return {
+        bg: "rgb(254 252 232)", // yellow-100
+        text: "rgb(202 138 4)", // yellow-600
+      };
+    case "blue":
+      return {
+        bg: "rgb(239 246 255)", // blue-100
+        text: "rgb(37 99 235)", // blue-600
+      };
+    default:
+      return {};
+  }
+};
+
+// Extracted Feature Card Component
+const FeatureCard = ({ icon: Icon, title, desc, color, i }) => {
+  const colors = getColorClasses(color);
+
+  const cardStyle = {
+    background: "linear-gradient(to bottom right, #fff, rgb(249 250 251))",
+    padding: 40,
+    borderRadius: 24,
+    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+    border: "1px solid rgb(229 231 235)",
+    transition: "all 500ms ease",
+    position: "relative",
+    overflow: "hidden",
+  };
+
+  const iconContainerStyle = {
+    width: 80,
+    height: 80,
+    backgroundColor: colors.bg,
+    borderRadius: 16,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 24,
+    position: "relative",
+    zIndex: 10,
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: i * 0.15 }}
+      whileHover={{ y: -12, scale: 1.03 }}
+      style={cardStyle}
+    >
+      <motion.div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom right, rgb(239, 246, 255), rgb(253, 242, 248))",
+          opacity: 0,
+          transition: "opacity 0.5s ease",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = "0")}
+      />
+      <div style={iconContainerStyle}>
+        <Icon style={{ width: 40, height: 40, color: colors.text }} />
+      </div>
+      <h3
+        style={{
+          fontSize: 20,
+          fontWeight: "600",
+          marginBottom: 16,
+          position: "relative",
+          zIndex: 10,
+          color: "rgb(31 41 55)",
+        }}
+      >
+        {title}
+      </h3>
+      <p
+        style={{
+          color: "rgb(75 85 99)",
+          position: "relative",
+          zIndex: 10,
+        }}
+      >
+        {desc}
+      </p>
+    </motion.div>
+  );
+};
+
+// Define feature data
+const FEATURES = [
+  {
+    icon: Heart,
+    title: "Built with Love",
+    desc: "Designed by pet parents, for pet parents",
+    color: "pink",
+  },
+  {
+    icon: Sparkles,
+    title: "AI-Powered",
+    desc: "Smart insights that help you care better",
+    color: "yellow",
+  },
+  {
+    icon: PawPrint,
+    title: "Simple & Beautiful",
+    desc: "Intuitive design that gets out of your way",
+    color: "blue",
+  },
+];
+
+const STACK_ITEMS = [
+  { title: "Pet Records Overview", color: "#c7ddffff" },
+  { title: "Step 1: Log Activities", color: "#b1cfbcff" },
+  { title: "Step 2: Track Health", color: "#c4b8d0ff" },
+  { title: "Step 3: Get Insights", color: "#e6bb9dff" },
+];
+
+// --- Main Dashboard Component ---
 
 export function Dashboard({ onNavigate }) {
   const { scrollY } = useScroll();
@@ -45,75 +193,157 @@ export function Dashboard({ onNavigate }) {
   const pawX = (mousePosition.x - window.innerWidth / 2) * 0.02;
   const pawY = (mousePosition.y - window.innerHeight / 2) * 0.02;
 
-  // Helper for color classes
-  const getColorClasses = (color) => {
-    switch (color) {
-      case "pink":
-        return {
-          bg: "rgb(253 242 248)", // pink-100
-          text: "rgb(219 39 119)", // pink-600
-        };
-      case "yellow":
-        return {
-          bg: "rgb(254 252 232)", // yellow-100
-          text: "rgb(202 138 4)", // yellow-600
-        };
-      case "blue":
-        return {
-          bg: "rgb(239 246 255)", // blue-100
-          text: "rgb(37 99 235)", // blue-600
-        };
-      default:
-        return {};
-    }
+  // Extracted styles object for better readability
+  const styles = {
+    // Shared
+    container: {
+      maxWidth: 1024,
+      margin: "0 auto",
+      paddingLeft: 16,
+      paddingRight: 16,
+    },
+    sectionTitle: {
+      fontSize: 48,
+      marginBottom: 24,
+      fontWeight: "bold",
+      color: "rgb(17 24 39)",
+    },
+    sectionDescription: {
+      fontSize: 20,
+      color: "rgb(75 85 99)",
+      maxWidth: 800,
+      margin: "0 auto",
+    },
+
+    // Hero Section
+    heroSection: {
+      position: "relative",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      overflow: "hidden",
+    },
+    heroGradient: {
+      position: "absolute",
+      inset: 0,
+      background:
+        "linear-gradient(to bottom right, rgba(219, 234, 254, 0.5), rgba(253, 230, 246, 0.5), rgba(254, 252, 232, 0.5))",
+    },
+    heroContentContainer: {
+      position: "relative",
+      zIndex: 10,
+      maxWidth: 1024,
+      margin: "0 auto",
+      paddingLeft: 16,
+      paddingRight: 16,
+      textAlign: "center",
+    },
+    dogImage: {
+      width: 320,
+      height: 320,
+      margin: "0 auto",
+      objectFit: "cover",
+      borderRadius: "50%",
+      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+      border: "8px solid rgba(255, 255, 255, 0.5)",
+      backdropFilter: "blur(4px)",
+    },
+    heroSubtitle: {
+      fontSize: "1.25rem",
+      color: "rgb(107, 114, 128)",
+      marginBottom: "3rem",
+      maxWidth: "32rem",
+      margin: "0 auto 3rem auto",
+      lineHeight: "1.625",
+    },
+    // Why PetRecord Section
+    whySection: {
+      position: "relative",
+      padding: "128px 0",
+      backgroundColor: "#fff",
+    },
+    featuresGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+      gap: 32,
+    },
+    // How It Works Section
+    howItWorksSection: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      textAlign: "center",
+      padding: "1rem",
+    },
+    // Scroll Stack Section
+    scrollStackSection: {
+      position: "relative",
+      background: "black",
+    },
+    // CTA Section
+    ctaSection: {
+      position: "relative",
+      padding: "128px 0",
+      background:
+        "linear-gradient(to bottom right, rgb(239 246 255), rgb(253 242 248), rgb(254 252 232))",
+    },
+    ctaContentContainer: {
+      maxWidth: 896,
+      margin: "0 auto",
+      paddingLeft: 16,
+      paddingRight: 16,
+      textAlign: "center",
+    },
+    ctaButton: {
+      background:
+        "linear-gradient(to right, rgb(96 165 250), rgb(244 114 182))",
+      color: "white",
+      padding: "28px 48px",
+      borderRadius: 9999,
+      boxShadow:
+        "0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)",
+      fontSize: 16,
+      cursor: "pointer",
+      transition: "all 0.5s ease",
+      position: "relative",
+      overflow: "hidden",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 12,
+      border: "none",
+    },
   };
 
   return (
     <div style={{ minHeight: "100vh", overflow: "hidden" }}>
       {/* Hero Section with Advanced Parallax */}
-      <div
-        style={{
-          position: "relative",
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-        }}
-      >
+      <div style={styles.heroSection}>
         {/* Gradient Background */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(to bottom right, rgba(219, 234, 254, 0.5), rgba(253, 230, 246, 0.5), rgba(254, 252, 232, 0.5))",
-          }}
-        />
-        {/* Animated Paw Prints with Mouse Tracking */}
+        <div style={styles.heroGradient} />
+
+        {/* Animated Paw Prints with Mouse Tracking (Parallax Layer 1) */}
         <motion.div
           style={{
             position: "absolute",
             inset: 0,
-            opacity: 0.08, // from opacity-8
+            opacity: 0.08,
             x: pawX,
             y: pawY,
           }}
         >
+          {/* Paw Prints with Jiggle Animation */}
           <motion.div
-            style={{ position: "absolute", top: 40, left: 40, fontSize: 36 }} // text-6xl is roughly 36px in some configs
+            style={{ position: "absolute", top: 40, left: 40, fontSize: 36 }}
             animate={{ rotate: [0, 5, 0], scale: [1, 1.1, 1] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
             🐾
           </motion.div>
           <motion.div
-            style={{
-              position: "absolute",
-              top: 160,
-              right: 80,
-              fontSize: 32,
-            }} // text-5xl is roughly 32px
+            style={{ position: "absolute", top: 160, right: 80, fontSize: 32 }}
             animate={{ rotate: [0, -5, 0], scale: [1, 1.15, 1] }}
             transition={{
               duration: 5,
@@ -130,7 +360,7 @@ export function Dashboard({ onNavigate }) {
               bottom: 80,
               left: "25%",
               fontSize: 42,
-            }} // text-7xl is roughly 42px
+            }}
             animate={{ rotate: [0, 3, 0], y: [0, -10, 0] }}
             transition={{
               duration: 6,
@@ -142,6 +372,8 @@ export function Dashboard({ onNavigate }) {
             🐾
           </motion.div>
         </motion.div>
+
+        {/* Bone Icons (Parallax Layer 2) */}
         <motion.div
           style={{ position: "absolute", inset: 0, opacity: 0.05, y: y1 }}
         >
@@ -151,12 +383,7 @@ export function Dashboard({ onNavigate }) {
             🦴
           </div>
           <div
-            style={{
-              position: "absolute",
-              bottom: 160,
-              left: 80,
-              fontSize: 36,
-            }}
+            style={{ position: "absolute", bottom: 160, left: 80, fontSize: 36 }}
           >
             🦴
           </div>
@@ -166,15 +393,11 @@ export function Dashboard({ onNavigate }) {
             🦴
           </div>
         </motion.div>
+
+        {/* Hero Content (Scroll Fade/Scale) */}
         <motion.div
           style={{
-            position: "relative",
-            zIndex: 10,
-            maxWidth: 1024,
-            margin: "0 auto",
-            paddingLeft: 16,
-            paddingRight: 16,
-            textAlign: "center",
+            ...styles.heroContentContainer,
             opacity,
             scale,
           }}
@@ -184,45 +407,33 @@ export function Dashboard({ onNavigate }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
+            {/* Dog Image with Bubble */}
             <motion.div
               style={{ marginBottom: 48, position: "relative" }}
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              <img
-                src={dogImg}
-                alt="Pets"
-                style={{
-                  width: 320,
-                  height: 320,
-                  margin: "0 auto",
-                  objectFit: "cover",
-                  borderRadius: "50%",
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)", // shadow-2xl
-                  border: "8px solid rgba(255, 255, 255, 0.5)", // border-8 border-white/50
-                  backdropFilter: "blur(4px)", // backdrop-blur (simulated)
-                }}
-              />
+              <img src={dogImg} alt="Pets" style={styles.dogImage} />
               <motion.div
                 style={{
                   position: "absolute",
                   top: -16,
                   right: -16,
-                  backgroundColor: "rgb(253 224 71)", // bg-yellow-300
+                  backgroundColor: "rgb(253 224 71)",
                   borderRadius: "50%",
                   padding: 12,
-                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)", // shadow-lg
+                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
                 }}
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
                 <Sparkles
                   style={{ width: 24, height: 24, color: "rgb(120 53 15)" }}
-                />{" "}
-                {/* w-6 h-6 text-yellow-900 */}
+                />
               </motion.div>
             </motion.div>
 
+            {/* Title with TextType */}
             <div
               style={{
                 fontSize: 32,
@@ -247,7 +458,7 @@ export function Dashboard({ onNavigate }) {
               <span style={{ margin: "0 4px" }}>&nbsp;</span>
               <span
                 style={{
-                  background: "linear-gradient(to right, #60a5fa, #f472b6)", // from-blue-400 to-pink-400
+                  background: "linear-gradient(to right, #60a5fa, #f472b6)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   display: "inline",
@@ -257,8 +468,9 @@ export function Dashboard({ onNavigate }) {
               </span>
             </div>
 
+            {/* Subtitle */}
             <motion.p
-              className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed" // Keeping complex classes
+              style={styles.heroSubtitle}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
@@ -266,6 +478,7 @@ export function Dashboard({ onNavigate }) {
               Every wag, every purr, every moment — tracked with care
             </motion.p>
 
+            {/* CTA Button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -274,7 +487,22 @@ export function Dashboard({ onNavigate }) {
               <Button
                 size="lg"
                 onClick={() => onNavigate("pets")}
-                className="bg-gradient-to-r from-blue-400 to-pink-400 hover:shadow-2xl text-white px-10 py-7 rounded-full shadow-xl transition-all duration-500 hover:scale-105 relative overflow-hidden group" // Keeping complex classes
+                style={{
+                  ...styles.ctaButton,
+                  padding: "1.75rem 2.5rem",
+                  fontSize: "1.125rem",
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow =
+                    "0 25px 50px -12px rgba(0, 0, 0, 0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow =
+                    "0 25px 50px -12px rgba(0, 0, 0, 0.25)";
+                }}
               >
                 <span
                   style={{
@@ -286,13 +514,21 @@ export function Dashboard({ onNavigate }) {
                   }}
                 >
                   Start Now
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight
+                    style={{
+                      width: "1.25rem",
+                      height: "1.25rem",
+                      transition: "transform 0.3s ease",
+                    }}
+                  />
                 </span>
+                {/* Hover overlay for color shift effect */}
                 <motion.div
                   style={{
                     position: "absolute",
                     inset: 0,
-                    background: "linear-gradient(to right, #f472b6, #60a5fa)", // from-pink-400 to-blue-400
+                    background:
+                      "linear-gradient(to right, #f472b6, #60a5fa)",
                   }}
                   initial={{ opacity: 0 }}
                   whileHover={{ opacity: 1 }}
@@ -302,6 +538,7 @@ export function Dashboard({ onNavigate }) {
             </motion.div>
           </motion.div>
         </motion.div>
+
         {/* Scroll Indicator */}
         <motion.div
           style={{
@@ -309,7 +546,7 @@ export function Dashboard({ onNavigate }) {
             bottom: 32,
             left: "50%",
             transform: "translateX(-50%)",
-          }} // absolute bottom-8 left-1/2 -translate-x-1/2
+          }}
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -317,8 +554,8 @@ export function Dashboard({ onNavigate }) {
             style={{
               width: 24,
               height: 40,
-              border: "2px solid rgb(156 163 175)", // border-2 border-gray-400
-              borderRadius: 9999, // rounded-full
+              border: "2px solid rgb(156 163 175)",
+              borderRadius: 9999,
               display: "flex",
               justifyContent: "center",
               paddingTop: 8,
@@ -328,8 +565,8 @@ export function Dashboard({ onNavigate }) {
               style={{
                 width: 6,
                 height: 6,
-                backgroundColor: "rgb(75 85 99)", // bg-gray-600
-                borderRadius: 9999, // rounded-full
+                backgroundColor: "rgb(75 85 99)",
+                borderRadius: 9999,
               }}
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -339,22 +576,8 @@ export function Dashboard({ onNavigate }) {
       </div>
 
       {/* Why This App Section */}
-      <motion.div
-        style={{
-          position: "relative",
-          padding: "128px 0",
-          backgroundColor: "#fff",
-          y: y2,
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1152,
-            margin: "0 auto",
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-        >
+      <motion.div style={{ ...styles.whySection, y: y2 }}>
+        <div style={styles.container}>
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -362,135 +585,23 @@ export function Dashboard({ onNavigate }) {
             transition={{ duration: 0.8 }}
             style={{ textAlign: "center", marginBottom: 80 }}
           >
-            <h2
-              style={{
-                fontSize: 48,
-                marginBottom: 24,
-                fontWeight: "bold",
-                color: "rgb(17 24 39)",
-              }}
-            >
-              Why PetRecord?
-            </h2>
-            <p
-              style={{
-                fontSize: 20,
-                color: "rgb(75 85 99)",
-                maxWidth: 800,
-                margin: "0 auto",
-              }}
-            >
+            <h2 style={styles.sectionTitle}>Why PetRecord?</h2>
+            <p style={styles.sectionDescription}>
               Because every pet deserves thoughtful care and every moment
               deserves to be remembered
             </p>
           </motion.div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: 32,
-            }}
-          >
-            {[
-              {
-                icon: Heart,
-                title: "Built with Love",
-                desc: "Designed by pet parents, for pet parents",
-                color: "pink",
-              },
-              {
-                icon: Sparkles,
-                title: "AI-Powered",
-                desc: "Smart insights that help you care better",
-                color: "yellow",
-              },
-              {
-                icon: PawPrint,
-                title: "Simple & Beautiful",
-                desc: "Intuitive design that gets out of your way",
-                color: "blue",
-              },
-            ].map((item, i) => {
-              const colors = getColorClasses(item.color);
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.15 }}
-                  whileHover={{ y: -12, scale: 1.03 }}
-                  className="group" // Keep group for hover effects
-                  style={{
-                    background:
-                      "linear-gradient(to bottom right, #fff, rgb(249 250 251))", // from-white to-gray-50
-                    padding: 40,
-                    borderRadius: 24,
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)", // shadow-lg
-                    border: "1px solid rgb(229 231 235)", // border border-gray-200
-                    transition: "all 500ms ease",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  <motion.div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-pink-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div
-                    style={{
-                      width: 80,
-                      height: 80,
-                      backgroundColor: colors.bg,
-                      borderRadius: 16,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: 24,
-                      position: "relative",
-                      zIndex: 10,
-                    }}
-                  >
-                    <item.icon
-                      style={{ width: 40, height: 40, color: colors.text }}
-                    />
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "600",
-                      marginBottom: 16,
-                      position: "relative",
-                      zIndex: 10,
-                      color: "rgb(31 41 55)",
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p
-                    style={{
-                      color: "rgb(75 85 99)",
-                      position: "relative",
-                      zIndex: 10,
-                    }}
-                  >
-                    {item.desc}
-                  </p>
-                </motion.div>
-              );
-            })}
+          <div style={styles.featuresGrid}>
+            {FEATURES.map((item, i) => (
+              <FeatureCard key={i} {...item} i={i} />
+            ))}
           </div>
         </div>
       </motion.div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh", // full screen height
-          textAlign: "center",
-          padding: "1rem",
-        }}
-      >
+
+      {/* How It Works Section */}
+      <div style={styles.howItWorksSection}>
         <ScrollVelocity
           texts={["⋆˚🐾˖°🦴𓃥𓃠", "DROCERTEP", "⋆˚🐾˖°🦴𓃥𓃠"]}
           velocity={30}
@@ -500,202 +611,76 @@ export function Dashboard({ onNavigate }) {
             justifyContent: "center",
           }}
         />
-        <h2
-          style={{
-            fontSize: 48,
-            marginBottom: 24,
-            fontWeight: "bold",
-            color: "rgb(17 24 39)",
-          }}
-        >
-          How It Works
-        </h2>
-        <p style={{ fontSize: 20, color: "rgb(75 85 99)" }}>
+        <h2 style={styles.sectionTitle}>How It Works</h2>
+        <p style={styles.sectionDescription}>
           Four simple steps to better pet care
         </p>
       </div>
 
-      {/* How It Works Section */}
-      <div
-        style={{
-          position: "relative",
-          padding: "128px 0",
-          background: "linear-gradient(to bottom, #fff, rgb(239 246 255))",
-        }}
-      >
-        {/* <div
-          style={{
-            maxWidth: 1152,
-            margin: "0 auto",
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
+      {/* Scroll Stack Section (Simulated App Screens) */}
+      <div style={styles.scrollStackSection}>
+        <ScrollStack
+          itemDistance={120}
+          itemScale={0.04}
+          itemStackDistance={40}
+          stackPosition="25%"
+          scaleEndPosition="15%"
+          baseScale={0.8}
+          rotationAmount={2}
+          blurAmount={2}
+          useWindowScroll={true}
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: 24,
-            }}
-          >
-            {[
-              {
-                step: "01",
-                icon: PawPrint,
-                title: "Add Pet",
-                desc: "Create a profile for your furry friend",
-              },
-              {
-                step: "02",
-                icon: Activity,
-                title: "Record",
-                desc: "Log daily activities and moments",
-              },
-              {
-                step: "03",
-                icon: BarChart,
-                title: "Analyze",
-                desc: "See patterns and insights emerge",
-              },
-              {
-                step: "04",
-                icon: FileCheck,
-                title: "Report",
-                desc: "Get AI-powered care recommendations",
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                style={{ position: "relative" }}
+          {STACK_ITEMS.map((item) => (
+            <ScrollStackItem key={item.title}>
+              <div
+                style={{
+                  backgroundColor: item.color,
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                  fontSize: "1.5rem",
+                  borderRadius: "20px",
+                }}
               >
-                <motion.div
-                  whileHover={{ y: -8 }}
-                  style={{
-                    backgroundColor: "#fff",
-                    padding: 32,
-                    borderRadius: 24,
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)", // shadow-lg
-                    border: "1px solid rgb(243 244 246)", // Assuming 'border' is a light gray
-                    transition: "all 300ms ease",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: 48,
-                      marginBottom: 16,
-                      backgroundImage:
-                        "linear-gradient(to right, #60a5fa, #f472b6)", // from-blue-400 to-pink-400
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      opacity: 0.2,
-                    }}
-                  >
-                    {item.step}
-                  </div>
-                  <div
-                    style={{
-                      width: 64,
-                      height: 64,
-                      backgroundImage:
-                        "linear-gradient(to bottom right, rgb(219 234 254), rgb(220 252 231))", // from-blue-100 to-green-100
-                      borderRadius: 16,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: 16,
-                    }}
-                  >
-                    <item.icon
-                      style={{ width: 32, height: 32, color: "rgb(37 99 235)" }}
-                    />
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "600",
-                      marginBottom: 12,
-                      color: "rgb(31 41 55)",
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p style={{ fontSize: 14, color: "rgb(75 85 99)" }}>
-                    {item.desc}
-                  </p>
-                </motion.div>
-                {i < 3 && (
-                  <div
-                    style={{ display: "none" }}
-                    className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gradient-to-r from-blue-400 to-transparent"
-                  />
-                  // Note: The arrow is hidden on small screens and uses Tailwind for responsiveness (md:block)
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div> */}
-
+                {item.title}
+              </div>
+            </ScrollStackItem>
+          ))}
+        </ScrollStack>
       </div>
-
-
 
       {/* Final CTA Section */}
       <motion.div
-        style={{
-          position: "relative",
-          padding: "128px 0",
-          background:
-            "linear-gradient(to bottom right, rgb(239 246 255), rgb(253 242 248), rgb(254 252 232))", // from-blue-50 via-pink-50 to-yellow-50
-        }}
+        style={styles.ctaSection}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        <div
-          style={{
-            maxWidth: 896,
-            margin: "0 auto",
-            paddingLeft: 16,
-            paddingRight: 16,
-            textAlign: "center",
-          }}
-        >
+        <div style={styles.ctaContentContainer}>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2
-              style={{
-                fontSize: 48,
-                marginBottom: 24,
-                fontWeight: "bold",
-                color: "rgb(17 24 39)",
-              }}
-            >
-              Ready to get started?
+            <h2 style={styles.sectionTitle}>
+              Give your pet the care they deserve
             </h2>
-            <p
-              style={{
-                fontSize: 20,
-                color: "rgb(75 85 99)",
-                marginBottom: 48,
-                maxWidth: 800,
-                margin: "0 auto",
-              }}
-            >
+            <p style={{ ...styles.sectionDescription, marginBottom: 48 }}>
               Join thousands of pet parents who trust PetRecord to keep their
               furry friends happy and healthy
             </p>
-            <Button
-              size="lg"
+            <button
               onClick={() => onNavigate("pets")}
-              className="bg-gradient-to-r from-blue-400 to-pink-400 hover:shadow-2xl text-white px-12 py-7 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 relative overflow-hidden group" // Keeping complex classes
+              style={styles.ctaButton}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "scale(1.10)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
             >
               <span
                 style={{
@@ -708,9 +693,21 @@ export function Dashboard({ onNavigate }) {
               >
                 <Sparkles style={{ width: 20, height: 20 }} />
                 Start Your Journey
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight
+                  style={{
+                    width: 20,
+                    height: 20,
+                    transition: "transform 0.3s ease",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = "translateX(8px)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = "translateX(0)";
+                  }}
+                />
               </span>
-            </Button>
+            </button>
           </motion.div>
         </div>
       </motion.div>

@@ -180,8 +180,7 @@ const Badge = ({ children, style: customStyle }) => (
 const Plus = ({ style: customStyle }) => <span style={customStyle}>+</span>;
 const Search = ({ style: customStyle }) => <span style={customStyle}>🔍</span>;
 const Edit = ({ style: customStyle }) => <span style={customStyle}>✏️</span>;
-const Trash2 = ({ style: customStyle }) => <span style={customStyle}>🗑️</span>;
-const Filter = ({ style: customStyle }) => <span style={customStyle}>🔧</span>;
+const Trash2 = ({ style: customStyle }) => <span style={customStyle}>🗑</span>;
 
 // Simple Dialog Component
 const LogFormDialog = ({ open, onClose, onSave, editingLog, pets }) => {
@@ -544,7 +543,7 @@ export function BehaviorLogs() {
             }}
           >
             <Plus
-              style={{ width: "20px", height: "20px", marginRight: "8px" }}
+              style={{ fontSize: "1.25rem", marginRight: "0.5rem" }}
             />
             Add Log
           </Button>
@@ -561,23 +560,6 @@ export function BehaviorLogs() {
             boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              marginBottom: "16px",
-            }}
-          >
-            <Filter
-              style={{
-                width: "20px",
-                height: "20px",
-                color: "rgb(107, 114, 128)",
-              }}
-            />
-            <span style={{ color: "rgb(75, 85, 99)" }}>Filters</span>
-          </div>
 
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <div
